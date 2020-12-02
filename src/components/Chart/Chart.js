@@ -22,12 +22,12 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
     confirmed ? (
       <Bar
         data={{
-          labels: ['Infected', 'Recovered', 'Deaths'],
+          labels: ['Confrimed', 'Active', 'Recovered', 'Deaths'],
           datasets: [
             {
               label: 'People',
-              backgroundColor: ['rgba(0, 0, 255, 0.5)', 'rgba(0, 255, 0, 0.5)', 'rgba(255, 0, 0, 0.5)'],
-              data: [confirmed.value, recovered.value, deaths.value],
+              backgroundColor: ['rgba(255, 0, 0, 0.5)','rgba(0, 0, 255, 0.5)', 'rgba(0, 255, 0, 0.5)', 'rgba(148, 144, 144, 0.5)'],
+              data: [confirmed.value, confirmed.value - recovered.value, recovered.value, deaths.value],
             },
           ],
         }}
@@ -46,20 +46,26 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
           labels: dailyData.map(({ date }) => new Date(date).toLocaleDateString()),
           datasets: [{
             data: dailyData.map((data) => data.confirmed),
-            label: 'Infected',
-            borderColor: '#3333ff',
+            label: 'Confrimed',
+            borderColor: 'rgba(255, 0, 0, 0.5)',
+            fill: true,
+          }, {
+            data: dailyData.map((data) => data.confirmed - data.recovered),
+            label: 'Active',
+            borderColor: 'red',
+            backgroundColor: 'rgba(0, 0, 255, 0.5)',
             fill: true,
           }, {
             data: dailyData.map((data) => data.deaths),
             label: 'Deaths',
             borderColor: 'red',
-            backgroundColor: 'rgba(255, 0, 0, 0.5)',
+            backgroundColor: 'rgba(148, 144, 144, 0.5)',
             fill: true,
           },  {
             data: dailyData.map((data) => data.recovered),
             label: 'Recovered',
             borderColor: 'green',
-            backgroundColor: 'rgba(0, 255, 0, 0.5)',
+            backgroundColor: 'rgba(0, 255, 0, 0.5))',
             fill: true,
           },
           ],
